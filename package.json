@@ -17,6 +17,7 @@
     "vite": "^4.2.0"
   },
   "jest": {
+    "preset": "ts-jest",
     "coverageThreshold": {
       "global": {
         "statements": 100
@@ -28,9 +29,6 @@
     "testMatch": [
       "**/__tests__/**/*.+(ts|tsx|js)",
       "**/?(*.)+(spec|test).+(ts|tsx|js)"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    }
+    ]
   }
 }
