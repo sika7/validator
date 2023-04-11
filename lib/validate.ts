@@ -7,7 +7,7 @@ export class Validate {
   }
 
   check(target: unknown): boolean {
-    if (this.config.validation(target)) return true
+    if (!this.config.validation(target)) return true
     return false
   }
 
