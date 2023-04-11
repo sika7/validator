@@ -1,42 +1,5 @@
-interface IValidatePlugin {
-  name: string
-  errorMessage: string
-  validation: (target: unknown) => boolean
-}
-
-interface ValidateResult {
-  result: boolean
-  validateName: string
-  errorMessage: string
-  value: unknown
-}
-
-class Validate {
-  config: IValidatePlugin
-  constructor(config: IValidatePlugin) {
-    this.config = config
-  }
-
-  check(target: unknown): boolean {
-    if (this.config.validation(target)) return true
-    return false
-  }
-
-  result(target: unknown): ValidateResult {
-    return {
-      result: this.check(target),
-      validateName: this.config.name,
-      errorMessage: this.config.errorMessage,
-      value: target,
-    }
-  }
-}
-
-interface ErrorValidate {
-  value: unknown
-  validates: string[]
-  message: string[]
-}
+import { ErrorValidate, IValidatePlugin, ValidateResult } from './types'
+import { Validate } from './validate'
 
 class Validator {
   validates: Validate[] = []
@@ -155,11 +118,11 @@ export const validatorOnes = new ValidatorOnes()
 
 // export function arrayValidation(target: unknown[], settings: unknown[]): boolean {
 //   if (!Array.isArray(settings)) throw new Error('settings not array.')
-// 
+//
 //   for (const data of settings) {
 //     if (objectValidation(target, data)) return true
 //   }
-// 
+//
 //   return false
 // }
 
