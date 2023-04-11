@@ -11,6 +11,7 @@ class Validator {
   }
 
   private checkAll(target: unknown) {
+    this.result = [];
     for (const validate of this.validates) {
       this.result.push(validate.detail(target))
     }
