@@ -4,14 +4,6 @@ interface IValidatePlugin {
   validation: (target: unknown) => boolean
 }
 
-function isNumber(): IValidatePlugin {
-  return {
-    name: '',
-    errorMessage: '',
-    validation: () => true,
-  }
-}
-
 interface ValidateResult {
   result: boolean
   validateName: string
