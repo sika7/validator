@@ -12,7 +12,7 @@ class Validator {
 
   private checkAll(target: unknown) {
     for (const validate of this.validates) {
-      this.result.push(validate.result(target))
+      this.result.push(validate.detail(target))
     }
     return this.result.find((data) => data.result === true)
   }
