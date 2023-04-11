@@ -1,23 +1,22 @@
 import { IValidatePlugin } from './types'
+import { Validate } from './validate'
 
-type TValidator = (target: unknown) => boolean
-type TValidators = Record<string, TValidator>
+type TValidators = Record<string, Validate>
 
 class ValidatorOnes {
   validators: TValidators = {}
 
   use(plugin: IValidatePlugin) {
     const name = plugin.name
-    const validator = plugin.validation
     if (this.validators[name]) throw new Error('Already registered.')
-    this.validators[name] = validator
+    this.validators[name] = new Validate(plugin)
   }
 
   private check(name: string, target: unknown): boolean {
     if (!this.validators[name]) throw new Error('validator not found.')
 
-    const validator = this.validators[name]
-    if (validator(target)) return true
+    const validate = this.validators[name]
+    if (validate.check(target)) return true
     return false
   }
 
