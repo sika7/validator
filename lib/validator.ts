@@ -1,5 +1,5 @@
 import { ErrorValidate, IValidatePlugin, ValidateResult } from './types'
-import { Validate } from './validate'
+import { convertPluginToValidates, Validate } from './validate'
 
 class Validator {
   validates: Validate[] = []
@@ -42,11 +42,7 @@ class Validator {
 }
 
 export function validator(validatePlugins: IValidatePlugin[]): Validator {
-  const validates: Validate[] = []
-  for (const plugin of validatePlugins) {
-    validates.push(new Validate(plugin))
-  }
-  return new Validator(validates)
+  return new Validator(convertPluginToValidates(validatePlugins))
 }
 
 const isDataObject = (x: unknown): boolean => x !== null && (typeof x === 'object' || typeof x !== 'function')

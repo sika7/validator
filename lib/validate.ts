@@ -29,3 +29,11 @@ export class Validate {
     }
   }
 }
+
+export function convertPluginToValidates(validatePlugins: IValidatePlugin[]) {
+  const validates: Validate[] = []
+  for (const plugin of validatePlugins) {
+    validates.push(new Validate(plugin))
+  }
+  return validates;
+}

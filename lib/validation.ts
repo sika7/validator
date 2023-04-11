@@ -1,5 +1,5 @@
 import { IValidatePlugin } from './types'
-import { Validate } from './validate'
+import { convertPluginToValidates, Validate } from './validate'
 
 export class Validation {
   validates: Validate[] = []
@@ -16,9 +16,5 @@ export class Validation {
 }
 
 export function validation(validatePlugins: IValidatePlugin[]): Validation {
-  const validates: Validate[] = []
-  for (const plugin of validatePlugins) {
-    validates.push(new Validate(plugin))
-  }
-  return new Validation(validates)
+  return new Validation(convertPluginToValidates(validatePlugins))
 }
