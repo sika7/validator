@@ -1,14 +1,14 @@
 interface IValidatePlugin {
   name: string
   errorMessage: string
-  validation: (target: any) => boolean
+  validation: (target: unknown) => boolean
 }
 
 function isNumber(): IValidatePlugin {
   return {
     name: '',
     errorMessage: '',
-    validation: () => false,
+    validation: () => true,
   }
 }
 
@@ -16,7 +16,7 @@ interface ValidateResult {
   result: boolean
   validateName: string
   errorMessage: string
-  value: any
+  value: unknown
 }
 
 class Validate {
@@ -25,12 +25,12 @@ class Validate {
     this.config = config
   }
 
-  check(target: any): boolean {
+  check(target: unknown): boolean {
     if (this.config.validation(target)) return true
     return false
   }
 
-  result(target: any): ValidateResult {
+  result(target: unknown): ValidateResult {
     return {
       result: this.check(target),
       validateName: this.config.name,
@@ -41,7 +41,7 @@ class Validate {
 }
 
 interface ErrorValidate {
-  value: any
+  value: unknown
   validates: string[]
   message: string[]
 }
@@ -49,13 +49,13 @@ interface ErrorValidate {
 class Validator {
   validates: Validate[] = []
   result: ValidateResult[] = []
-  target: any
+  target: unknown
 
   constructor(validates: Validate[]) {
     this.validates = validates
   }
 
-  private checkAll(target: any) {
+  private checkAll(target: unknown) {
     for (const validate of this.validates) {
       this.result.push(validate.result(target))
     }
@@ -78,7 +78,7 @@ class Validator {
     }
   }
 
-  validation(target: any) {
+  validation(target: unknown) {
     this.target = target
     const result = this.checkAll(target)
     if (result) return true
@@ -100,7 +100,7 @@ class Validation {
     this.validates = validates
   }
 
-  run(target: any) {
+  run(target: unknown) {
     for (const validate of this.validates) {
       if (validate.check(target)) return true
     }
@@ -118,15 +118,15 @@ export function validation(validatePlugins: IValidatePlugin[]): Validation {
 
 const isDataObject = (x: unknown): boolean => x !== null && (typeof x === 'object' || typeof x !== 'function')
 
-export function arrayValidation(target: any[], settings: any[]): boolean {
-  if (!Array.isArray(settings)) throw new Error('settings not array.')
-
-  for (const data of settings) {
-    if (objectValidation(target, data)) return true
-  }
-
-  return false
-}
+// export function arrayValidation(target: unknown[], settings: unknown[]): boolean {
+//   if (!Array.isArray(settings)) throw new Error('settings not array.')
+// 
+//   for (const data of settings) {
+//     if (objectValidation(target, data)) return true
+//   }
+// 
+//   return false
+// }
 
 // export function objectValidation(target: any, settings: any = {}): boolean {
 //   for (const key of Object.keys(settings)) {
