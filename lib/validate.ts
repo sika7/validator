@@ -1,12 +1,12 @@
-import { IValidatePlugin, ValidateResult } from './types'
+import { IValidatePlugin, ValidateResult } from './types';
 
 /**
  * Validate. (Basic unit of validation)
  */
 export class Validate {
-  config: IValidatePlugin
+  config: IValidatePlugin;
   constructor(config: IValidatePlugin) {
-    this.config = config
+    this.config = config;
   }
 
   /**
@@ -16,8 +16,8 @@ export class Validate {
    * @returns {boolean} returns true if there is an error
    */
   check(target: unknown): boolean {
-    if (!this.config.validation(target)) return true
-    return false
+    if (!this.config.validation(target)) return true;
+    return false;
   }
 
   detail(target: unknown): ValidateResult {
@@ -26,14 +26,14 @@ export class Validate {
       validateName: this.config.name,
       errorMessage: this.config.errorMessage,
       value: target,
-    }
+    };
   }
 }
 
 export function convertPluginToValidates(validatePlugins: IValidatePlugin[]) {
-  const validates: Validate[] = []
+  const validates: Validate[] = [];
   for (const plugin of validatePlugins) {
-    validates.push(new Validate(plugin))
+    validates.push(new Validate(plugin));
   }
   return validates;
 }
