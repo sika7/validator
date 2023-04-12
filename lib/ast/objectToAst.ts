@@ -78,6 +78,20 @@ export function parse(obj: unknown): RootNode {
   throw new Error('Enter an object of data type.');
 }
 
+function executeExploration(data: childNode, callback: (data: childNode) => childNode) {
+  data = callback(data);
+  if (data !== null && (data.type === 'object' || data.type === 'array')) {
+    data.children = data.children.map((item) => executeExploration(item, callback));
+    return data;
+  }
+  return data;
+}
+
+export function execute(node: RootNode, callback: (data: childNode) => childNode): RootNode {
+  node.children = node.children.map((item) => executeExploration(item, callback));
+  return node;
+}
+
 // export function objectValidator(target: any, settings: any = {}): boolean {
 //   for (const key of Object.keys(settings)) {
 //     const targetValue = getProperty(target, key)
