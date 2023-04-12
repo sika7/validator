@@ -30,7 +30,7 @@
   "eslintConfig": {
     "root": true,
     "ignorePatterns": [
-      "vite.config.js"
+      "rollup.config.js"
     ],
     "env": {
       "es2021": true,
