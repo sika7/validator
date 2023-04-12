@@ -16,5 +16,9 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   },
-  "include": ["lib"]
+  "include": ["lib"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }
