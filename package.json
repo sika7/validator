@@ -10,9 +10,11 @@
     "lint": "eslint --fix ./*/*.ts",
     "fmt": "prettier --write ./*/*.ts",
     "test": "jest --coverage",
-    "buld": "rollup --config rollup.config.ts --configPlugin typescript",
+    "build": "rollup --config rollup.config.js",
+    "node": "ts-node lib/run.ts"
   },
   "devDependencies": {
+    "@rollup/plugin-typescript": "^11.1.0",
     "@types/jest": "^29.5.0",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
