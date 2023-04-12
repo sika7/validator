@@ -1,79 +1,53 @@
-const isDataObject = (x: unknown): boolean => x !== null && (typeof x === 'object' || typeof x !== 'function')
-
-interface RootNode {
-  type: 'root'
-  children: childNode[]
-}
-
-type childNode = ObjectTypeData | ArrayTypeData | PrimitiveTypeData
-type dataObject = Record<string, unknown>
-
-interface PrimitiveTypeData {
-  type: 'string' | 'number' | 'boolean'
-  key: string
-  value: string | number | boolean
-}
-
-interface ObjectTypeData {
-  type: 'object'
-  key: string
-  children: childNode[]
-}
-
-interface ArrayTypeData {
-  type: 'array'
-  key: string
-  children: childNode[]
-}
+import { childNode, dataObject, PrimitiveTypeData, RootNode } from './types';
 
 function childrens(data: dataObject): childNode[] {
-  const result: childNode[] = []
+  const result: childNode[] = [];
 
   for (const key of Object.keys(data)) {
-    const value = data[key]
+    const value = data[key];
     if (value) {
-      const node = childNode(key, value)
-      if (node) result.push(node)
+      const node = childNode(key, value);
+      if (node) result.push(node);
     }
   }
 
-  return result
+  return result;
 }
 
 function childrensArrays(data: unknown[]) {
-  const result: childNode[] = []
+  const result: childNode[] = [];
 
   for (const [index, value] of data.entries()) {
-    if (value) throw new Error('not found value')
-    const node = childNode(String(index), value)
-    if (node) result.push(node)
+    if (value) throw new Error('not found value');
+    const node = childNode(String(index), value);
+    if (node) result.push(node);
   }
-  return result
+  return result;
 }
 
 function childNode(key: string, value: unknown): childNode | void {
   if (typeof value === 'string') {
-    return makePrimitiveTypeData('string', key, value)
+    return makePrimitiveTypeData('string', key, value);
   }
   if (typeof value === 'number') {
-    return makePrimitiveTypeData('number', key, value)
+    return makePrimitiveTypeData('number', key, value);
   }
   if (typeof value === 'boolean') {
-    return makePrimitiveTypeData('boolean', key, value)
+    return makePrimitiveTypeData('boolean', key, value);
   }
   if (typeof value === 'object' && typeof value !== 'function') {
     return {
       type: 'object',
       key: key,
       children: childrens(value as dataObject),
-    }
+    };
   }
   if (Array.isArray(value)) {
     return {
       type: 'array',
       key: key,
       children: childrensArrays(value),
-    }
+    };
   }
 }
 
@@ -86,18 +60,22 @@ function makePrimitiveTypeData(
     type: type,
     key: key,
     value: value,
-  }
+  };
+}
+
+function isDataObject(obj: unknown) {
+  return obj !== null && typeof obj === 'object' && typeof obj !== 'function';
 }
 
 export function parse(obj: unknown): RootNode {
   if (isDataObject(obj)) {
-    throw new Error('Enter an object of data type.')
+    return {
+      type: 'root',
+      children: childrens(obj as dataObject),
+    };
   }
 
-  return {
-    type: 'root',
-    children: childrens(obj as dataObject),
-  }
+  throw new Error('Enter an object of data type.');
 }
 
 // export function objectValidator(target: any, settings: any = {}): boolean {
