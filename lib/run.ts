@@ -1,5 +1,4 @@
-// import { parse } from './ast/objectToAst';
-// console.log(parse({ hoge: 'hoge' }));
-console.log('hoge');
+import { parse } from './ast/objectToAst';
+console.log(parse({ hoge: 'hoge' }));
 
-export {}
+export default parse;
