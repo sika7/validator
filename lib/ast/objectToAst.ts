@@ -92,6 +92,44 @@ export function execute(node: RootNode, callback: (data: childNode) => childNode
   return node;
 }
 
+function conversionExploration(data: childNode): unknown {
+  if (data.type === 'string' || data.type === 'boolean' || data.type === 'number') {
+    return data.value;
+  }
+  if (data.type === 'array') {
+    const result: unknown[] = [];
+    data.children.forEach((item) => {
+      result.push(conversionExploration(item));
+    });
+    return [];
+  }
+
+  if (data.type === 'object') {
+    const result: Record<string, unknown> = {};
+    data.children.map((item) => {
+      const a = conversionExploration(item);
+      if (a) {
+        result[item.key] = a;
+      }
+    });
+    return result;
+  }
+  return undefined;
+}
+
+export function conversionToAnObject(node: RootNode): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+
+  node.children.map((item) => {
+    const data = conversionExploration(item);
+    if (data) {
+      result[item.key] = data;
+    }
+  });
+
+  return result;
+}
+
 // export function objectValidator(target: any, settings: any = {}): boolean {
 //   for (const key of Object.keys(settings)) {
 //     const targetValue = getProperty(target, key)
