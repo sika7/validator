@@ -11,6 +11,12 @@ type explorationArgument = {
   value: unknown;
 };
 
+type argument = {
+  path?: string;
+  type?: 'array' | 'primitive';
+  value?: unknown;
+};
+
 function isDataObject(obj: unknown) {
   return obj !== null && typeof obj === 'object' && typeof obj !== 'function';
 }
@@ -20,7 +26,7 @@ function makePath(path: string, key: string | number): string {
   return `${path}.${key}`;
 }
 
-function makeArgument(data: explorationArgument) {
+function makeArgument(data: argument) {
   const defaultArgument: explorationArgument = {
     path: '',
     type: 'primitive',
@@ -36,7 +42,7 @@ function child(path: string, value: unknown, option: explorationOption) {
   const dataType = typeof value;
   if (dataType === 'string' || dataType === 'number' || dataType === 'boolean') {
     const { callback } = option;
-    if (callback) callback(makeArgument({ path: path, type: 'primitive', value: value }));
+    if (callback) callback(makeArgument({ path: path, value: value }));
   }
   if (isDataObject(value) && !Array.isArray(value)) {
     typeObject(path, value as dataObject, option);
