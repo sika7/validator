@@ -1,4 +1,4 @@
-import { exploration } from './exploration/exploration';
+import { exploration } from './exploration/main';
 
 const data = { hoge: 'hoge', fuga: { hoge1: 'hoge1', hoge2: 'hoge2', array: ['array', 'array2'] } };
 
