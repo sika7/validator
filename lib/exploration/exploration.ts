@@ -2,7 +2,13 @@ type dataObject = Record<string, unknown> | Array<unknown>;
 
 type explorationOption = {
   fullSearch?: boolean;
-  callback?: (data: unknown) => void;
+  callback?: (data: explorationArgument) => void;
+};
+
+type explorationArgument = {
+  path: string;
+  type: 'array' | 'primitive';
+  value: unknown;
 };
 
 function isDataObject(obj: unknown) {
@@ -14,11 +20,23 @@ function makePath(path: string, key: string | number): string {
   return `${path}.${key}`;
 }
 
+function makeArgument(data: explorationArgument) {
+  const defaultArgument: explorationArgument = {
+    path: '',
+    type: 'primitive',
+    value: undefined,
+  };
+  return {
+    ...defaultArgument,
+    ...data,
+  };
+}
+
 function child(path: string, value: unknown, option: explorationOption) {
   const dataType = typeof value;
   if (dataType === 'string' || dataType === 'number' || dataType === 'boolean') {
     const { callback } = option;
-    if (callback) callback(value);
+    if (callback) callback(makeArgument({ path: path, type: 'primitive', value: value }));
   }
   if (isDataObject(value) && !Array.isArray(value)) {
     typeObject(path, value as dataObject, option);
@@ -41,7 +59,18 @@ function typeObject(path: string, data: dataObject, option: explorationOption) {
 
 function typeArrays(path: string, data: unknown[], option: explorationOption) {
   for (const [index, value] of data.entries()) {
-    if (value) child(makePath(path, index), value, option);
+    // if (value) child(makePath(path, index), value, option);
+    if (value) {
+      const { callback } = option;
+      if (callback)
+        callback(
+          makeArgument({
+            path: makePath(path, index),
+            type: 'array',
+            value: value,
+          })
+        );
+    }
   }
 }
 
