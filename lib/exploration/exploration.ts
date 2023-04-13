@@ -6,7 +6,6 @@ export type Option = {
 
 type Argument = {
   path: string;
-  type: 'array' | 'primitive';
   value: unknown;
 };
 
@@ -34,7 +33,6 @@ function makePath(path: string, key: string | number): string {
 function makeArgument(data: Partial<Argument>) {
   const defaultArgument: Argument = {
     path: '',
-    type: 'primitive',
     value: undefined,
   };
   return {
@@ -71,17 +69,8 @@ export function typeArrays(path: string, data: unknown[], option: Option, handle
   if (handle.isStop()) return;
 
   for (const [index, value] of data.entries()) {
-    // if (value) child(makePath(path, index), value, option);
     if (value) {
-      const { callback } = option;
-      callback(
-        makeArgument({
-          path: makePath(path, index),
-          type: 'array',
-          value: value,
-        }),
-        handle
-      );
+      child(makePath(path, index), value, option, handle);
     }
   }
 }
