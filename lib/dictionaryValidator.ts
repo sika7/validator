@@ -3,6 +3,11 @@ import { Validate } from './validate';
 
 type TValidators = Record<string, Validate>;
 
+type DictionaryValidatorError = {
+  validateName: string;
+  errorMessage: string;
+};
+
 export class DictionaryValidator {
   validators: TValidators = {};
 
@@ -12,14 +17,25 @@ export class DictionaryValidator {
     this.validators[name] = new Validate(plugin);
   }
 
-  private check(name: string, target: unknown): boolean {
+  private selectValidator(name: string) {
     if (!this.validators[name]) throw new Error('validator not found.');
 
-    const validate = this.validators[name];
-    return validate.check(target)
+    return this.validators[name];
   }
 
-  validation(name: string, target: unknown): boolean {
-    return this.check(name, target);
+  private check(name: string, target: unknown): boolean {
+    const validator = this.selectValidator(name);
+    return validator.check(target);
+  }
+
+  validation(name: string, target: unknown): DictionaryValidatorError | void {
+    if (this.check(name, target)) {
+      const validator = this.selectValidator(name);
+      const { validateName, errorMessage } = validator.detail(target);
+      return {
+        validateName,
+        errorMessage,
+      };
+    }
   }
 }

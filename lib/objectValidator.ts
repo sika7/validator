@@ -7,7 +7,7 @@ function getValidationNames(value: string): string[] {
   return value.split('.');
 }
 
-function stringTypeSetting(names: unknown, callback: (name: string) => boolean) {
+function stringTypeSetting(names: unknown, callback: (name: string) => unknown) {
   if (typeof names !== 'string') return;
 
   for (const name of getValidationNames(names)) {
@@ -21,6 +21,7 @@ type ObjectValidatorOption = {
 
 type ObjectValidatorError = {
   path: string;
+  validateName: string;
   errorMessage: string;
 };
 
@@ -42,6 +43,7 @@ export class ObjectValidator {
 
   validation(setting: dataObject, target: dataObject): void | ObjectValidatorError {
     let result: null | ObjectValidatorError = null;
+
     parsing(setting, target, {
       stringCallbakc: ({ path, roleModel, checkTarget }, handle) => {
         stringTypeSetting(roleModel.value, (name) => {
@@ -50,7 +52,8 @@ export class ObjectValidator {
             handle.stop();
             result = {
               path,
-              errorMessage: '',
+              validateName: validationResult.validateName,
+              errorMessage: validationResult.errorMessage,
             };
           }
           return validationResult;
@@ -59,7 +62,8 @@ export class ObjectValidator {
       errorCallback: ({ path }) => {
         result = {
           path,
-          errorMessage: '検証データにデータがありません',
+          validateName: '',
+          errorMessage: 'お手本データ通りに検証データにデータがありません',
         };
         return;
       },
