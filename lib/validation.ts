@@ -16,6 +16,13 @@ export class Validation {
   }
 }
 
+/**
+ * validation.
+ *
+ * @param {IValidatePlugin[]} validatePlugins
+ * @param {unknown} target
+ * @returns {boolean} Return true if there is an error in validation, and false if there is no error.
+ */
 export function validation(validatePlugins: IValidatePlugin[], target: unknown): boolean {
   return new Validation(validatePlugins).run(target);
 }
