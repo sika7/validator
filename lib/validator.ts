@@ -1,18 +1,19 @@
 import { ErrorValidate, IValidatePlugin, ValidateResult } from './types';
-import { convertPluginToValidates, Validate } from './validate';
+import { convertPluginToValidates } from './validate';
 
 class Validator {
-  validates: Validate[] = [];
+  plugins: IValidatePlugin[] = [];
   result: ValidateResult[] = [];
   target: unknown;
 
-  constructor(validates: Validate[]) {
-    this.validates = validates;
+  constructor(plugins: IValidatePlugin[]) {
+    this.plugins = plugins;
   }
 
   private checkAll(target: unknown) {
+    const validates = convertPluginToValidates(this.plugins);
     this.result = [];
-    for (const validate of this.validates) {
+    for (const validate of validates) {
       this.result.push(validate.detail(target));
     }
     return this.result.find((data) => data.result === true);
@@ -43,5 +44,5 @@ class Validator {
 }
 
 export function validator(validatePlugins: IValidatePlugin[]): Validator {
-  return new Validator(convertPluginToValidates(validatePlugins));
+  return new Validator(validatePlugins);
 }
