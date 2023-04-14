@@ -1,6 +1,7 @@
 export type dataObject = Record<string, unknown>;
 
 type optionParsingArgument = {
+  path: string;
   key: string;
   roleModel: {
     value: unknown;
@@ -54,13 +55,13 @@ function child(argument: Argument) {
   if (handle.isStop()) return;
 
   argument.path = makePath(path, key);
-
   if (isDataObject(roleModel) && !Array.isArray(roleModel)) return typeObject(argument);
 
   if (typeof roleModel === 'string') {
     const { stringCallbakc } = argument.option;
     stringCallbakc(
       {
+        path,
         key,
         roleModel: {
           value: roleModel,

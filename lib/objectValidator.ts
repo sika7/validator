@@ -15,36 +15,56 @@ function stringTypeSetting(names: unknown, callback: (name: string) => boolean) 
   }
 }
 
+type ObjectValidatorOption = {
+  errorType: 'message' | 'throwError';
+};
+
+type ObjectValidatorError = {
+  path: string;
+  errorMessage: string;
+};
+
 export class ObjectValidator {
   validator: DictionaryValidator = new DictionaryValidator();
+
+  option: ObjectValidatorOption;
+
+  constructor(option: Partial<ObjectValidatorOption>) {
+    const defaultOption: ObjectValidatorOption = {
+      errorType: 'message',
+    };
+    this.option = { ...defaultOption, ...option };
+  }
 
   use(plugin: IValidatePlugin) {
     this.validator.use(plugin);
   }
 
-  validation(setting: dataObject, target: dataObject): boolean {
-    let result = false;
-
+  validation(setting: dataObject, target: dataObject): void | ObjectValidatorError {
+    let result: null | ObjectValidatorError = null;
     parsing(setting, target, {
-      stringCallbakc: ({ roleModel, checkTarget }, handle) => {
-
+      stringCallbakc: ({ path, roleModel, checkTarget }, handle) => {
         stringTypeSetting(roleModel.value, (name) => {
           const validationResult = this.validator.validation(name, checkTarget.value);
           if (validationResult) {
             handle.stop();
-            result = true;
+            result = {
+              path,
+              errorMessage: '',
+            };
           }
           return validationResult;
         });
       },
-      errorCallback: () => {
-        result = true;
+      errorCallback: ({ path }) => {
+        result = {
+          path,
+          errorMessage: '検証データにデータがありません',
+        };
         return;
       },
     });
 
-    return result;
+    if (result) return result;
   }
 }
-
-export const objectValidator = new ObjectValidator();
