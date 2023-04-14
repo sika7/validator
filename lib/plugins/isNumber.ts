@@ -8,6 +8,11 @@ export function isNumber(): IValidatePlugin {
   return {
     name: "number",
     errorMessage: "hoge",
-    validation: () => true,
+    validation: (value) => {
+      if (typeof value === 'number') {
+        return !isNaN(value);
+      }
+      return false;
+    },
   };
 }
