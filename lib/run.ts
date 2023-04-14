@@ -1,27 +1,13 @@
-import { parsing } from './parsing/main';
+import { ObjectValidator } from './objectValidator';
+import { isNumber } from './plugins/isNumber';
 
 const data = {
-  hoge: 'hoge',
-  fuga: {
-    hoge1: 'hoge1',
-    hoge2: 'hoge2',
-    array: {
-      piyo: 'piyo',
-      piyo2: 'piyo2',
-    },
-  },
+  hoge: 'number',
 };
-const data2 = { hoge: 'hoge', fuga: { hoge1: 'hoge1', hoge2: 'hoge2', array: ['array', 'array2'] } };
+const data2 = { hoge: 2 };
 
-parsing(data, data2, {
-  stringCallbakc: (item) => {
-    console.log('結果', item.checkTarget.value);
-    // if (item.checkTarget.value === 'hoge') {
-    //   handle.stop();
-    // }
-  },
-  errorCallback: ({ path }) => {
-    console.log(`${path}が検証データにありませんでした`);
-    return;
-  },
-});
+const v = new ObjectValidator();
+v.use(isNumber());
+
+console.log('結果', v.validation(data, data2));
+

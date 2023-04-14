@@ -1,6 +1,5 @@
 import { DictionaryValidator } from './dictionaryValidator';
-import { dataObject } from './exploration/exploration';
-import { exploration } from './exploration/main';
+import { parsing, dataObject } from './parsing/main';
 import { IValidatePlugin } from './types';
 
 function getValidationNames(value: string): string[] {
@@ -26,17 +25,21 @@ export class ObjectValidator {
   validation(setting: dataObject, target: dataObject): boolean {
     let result = false;
 
-    exploration(setting, {
-      callback: ({ path, value }, handle) => {
-        console.log('結果', path);
+    parsing(setting, target, {
+      stringCallbakc: ({ roleModel, checkTarget }, handle) => {
 
-        stringTypeSetting(value, (name) => {
-          const validationResult = this.validator.validation(name, target);
-          if (validationResult) handle.stop();
-          result = true;
+        stringTypeSetting(roleModel.value, (name) => {
+          const validationResult = this.validator.validation(name, checkTarget.value);
+          if (validationResult) {
+            handle.stop();
+            result = true;
+          }
           return validationResult;
         });
-
+      },
+      errorCallback: () => {
+        result = true;
+        return;
       },
     });
 
