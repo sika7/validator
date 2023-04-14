@@ -16,10 +16,6 @@ export class Validation {
   }
 }
 
-export function createValidation(validatePlugins: IValidatePlugin[]): Validation {
-  return new Validation(validatePlugins);
-}
-
 export function validation(validatePlugins: IValidatePlugin[], target: unknown): boolean {
-  return createValidation(validatePlugins).run(target);
+  return new Validation(validatePlugins).run(target);
 }
