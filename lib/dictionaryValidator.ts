@@ -16,8 +16,7 @@ export class DictionaryValidator {
     if (!this.validators[name]) throw new Error('validator not found.');
 
     const validate = this.validators[name];
-    if (validate.check(target)) return true;
-    return false;
+    return validate.check(target)
   }
 
   validation(name: string, target: unknown): boolean {
