@@ -3,7 +3,7 @@ import { Validate } from './validate';
 
 type TValidators = Record<string, Validate>;
 
-class ValidatorOnes {
+export class DictionaryValidator {
   validators: TValidators = {};
 
   use(plugin: IValidatePlugin) {
@@ -24,5 +24,3 @@ class ValidatorOnes {
     return this.check(name, target);
   }
 }
-
-export const validatorOnes = new ValidatorOnes();
