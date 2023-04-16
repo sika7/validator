@@ -31,11 +31,7 @@ export class DictionaryValidator {
   validation(name: string, target: unknown): DictionaryValidatorError | void {
     if (this.check(name, target)) {
       const validator = this.selectValidator(name);
-      const { validateName, errorMessage } = validator.detail(target);
-      return {
-        validateName,
-        errorMessage,
-      };
+      return validator.detail();
     }
   }
 }

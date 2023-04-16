@@ -20,12 +20,10 @@ export class Validate {
     return false;
   }
 
-  detail(target: unknown): ValidateResult {
+  detail(): ValidateResult {
     return {
-      result: this.check(target),
       validateName: this.config.name,
       errorMessage: this.config.errorMessage,
-      value: target,
     };
   }
 }

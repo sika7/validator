@@ -14,19 +14,19 @@ class Validator {
     const validates = convertPluginToValidates(this.plugins);
     this.result = [];
     for (const validate of validates) {
-      this.result.push(validate.detail(target));
+      if (validate.check(target)) {
+        this.result.push(validate.detail());
+      }
     }
-    return this.result.find((data) => data.result === true);
+    return this.result;
   }
 
   getErrorMessage(): ErrorValidate {
     const message: string[] = [];
     const validates: string[] = [];
     this.result.map((data) => {
-      if (data.result === true) {
-        message.push(data.errorMessage);
-        validates.push(data.validateName);
-      }
+      message.push(data.errorMessage);
+      validates.push(data.validateName);
     });
     return {
       value: this.target,
@@ -38,7 +38,7 @@ class Validator {
   validation(target: unknown) {
     this.target = target;
     const result = this.checkAll(target);
-    if (result) return true;
+    if (result.length > 0) return true;
     return false;
   }
 }

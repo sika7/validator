@@ -5,10 +5,8 @@ export interface IValidatePlugin {
 }
 
 export interface ValidateResult {
-  result: boolean;
   validateName: string;
   errorMessage: string;
-  value: unknown;
 }
 
 export interface ErrorValidate {
