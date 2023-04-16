@@ -1,7 +1,7 @@
 import { ErrorValidate, IValidatePlugin, ValidateResult } from './types';
 import { convertPluginToValidates } from './validate';
 
-class Validator {
+export class Validator {
   plugins: IValidatePlugin[] = [];
   result: ValidateResult[] = [];
   target: unknown;

@@ -7,7 +7,7 @@ interface IValidatePlugin {
 export function isNumber(): IValidatePlugin {
   return {
     name: "number",
-    errorMessage: "hoge",
+    errorMessage: "not number",
     validation: (value) => {
       if (typeof value === 'number') {
         return !isNaN(value);
