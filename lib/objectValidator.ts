@@ -15,10 +15,6 @@ function stringTypeSetting(names: unknown, callback: (name: string) => unknown) 
   }
 }
 
-type ObjectValidatorOption = {
-  errorType: 'message' | 'throwError';
-};
-
 type ObjectValidatorError = {
   path: string;
   validateName: string;
@@ -27,15 +23,6 @@ type ObjectValidatorError = {
 
 export class ObjectValidator {
   validator: DictionaryValidator = new DictionaryValidator();
-
-  option: ObjectValidatorOption;
-
-  constructor(option: Partial<ObjectValidatorOption>) {
-    const defaultOption: ObjectValidatorOption = {
-      errorType: 'message',
-    };
-    this.option = { ...defaultOption, ...option };
-  }
 
   use(plugin: IValidatePlugin) {
     this.validator.use(plugin);
