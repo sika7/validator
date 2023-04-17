@@ -1,5 +1,13 @@
 export type dataObject = Record<string, unknown>;
 
+export class ParsingError extends Error {
+  path = '';
+  constructor(message: string, path: string) {
+    super(message);
+    this.path = path;
+  }
+}
+
 type optionParsingArgument = {
   path: string;
   key: string;
@@ -9,11 +17,6 @@ type optionParsingArgument = {
   checkTarget: {
     value: unknown;
   };
-};
-
-type parsingErrorArgument = {
-  path: string;
-  errorMessage: string;
 };
 
 type Argument = {
@@ -27,7 +30,6 @@ type Argument = {
 
 export type Option = {
   stringCallbakc: (data: optionParsingArgument, handle: Handle) => void;
-  errorCallback: (data: parsingErrorArgument) => void;
 };
 
 export class Handle {
@@ -60,45 +62,43 @@ function child(argument: Argument) {
 
   if (typeof roleModel === 'string') {
     const { stringCallbakc } = argument.option;
-    stringCallbakc(
-      {
-        path,
-        key,
-        roleModel: {
-          value: roleModel,
+    try {
+      stringCallbakc(
+        {
+          path,
+          key,
+          roleModel: {
+            value: roleModel,
+          },
+          checkTarget: {
+            value: checkTarget,
+          },
         },
-        checkTarget: {
-          value: checkTarget,
-        },
-      },
-      handle
-    );
+        handle
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new ParsingError(error.message, path);
+      }
+    }
   }
 }
 
 function typeObject(argument: Argument) {
-  const { path, handle, roleModel, checkTarget, option } = argument;
+  const { path, handle, roleModel, checkTarget } = argument;
 
   for (const key of Object.keys(roleModel)) {
     if (handle.isStop()) return;
     const newPath = makePath(path, key);
-    try {
-      const roleModelChild = roleModel[key] as dataObject;
-      const checkTargetChild = checkTarget[key] as dataObject;
-      if (checkTargetChild === undefined) throw new Error(`${newPath} is No data.`);
-      child({
-        ...argument,
-        key: key,
-        roleModel: roleModelChild,
-        checkTarget: checkTargetChild,
-      });
-    } catch (e: unknown) {
-      handle.stop();
-      if (e instanceof Error) {
-        option.errorCallback({ path: newPath , errorMessage: e.message});
-      }
-      return;
-    }
+    const roleModelChild = roleModel[key] as dataObject;
+    const checkTargetChild = checkTarget[key] as dataObject;
+    if (checkTargetChild === undefined) throw new ParsingError(`${newPath} is No data.`, newPath);
+    child({
+      ...argument,
+      key: key,
+      roleModel: roleModelChild,
+      checkTarget: checkTargetChild,
+    });
   }
 }
 
@@ -109,9 +109,6 @@ export function parsing(roleModel: dataObject, checkTarget: dataObject, option: 
 
   const defaultOption: Option = {
     stringCallbakc: () => {
-      return;
-    },
-    errorCallback: () => {
       return;
     },
   };
