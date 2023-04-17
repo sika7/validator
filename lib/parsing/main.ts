@@ -78,8 +78,6 @@ function child(argument: Argument) {
 
 function typeObject(argument: Argument) {
   const { path, handle, roleModel, checkTarget, option } = argument;
-  if (handle.isStop()) return;
-  if (Array.isArray(roleModel)) return;
 
   for (const key of Object.keys(roleModel)) {
     if (handle.isStop()) return;
@@ -118,8 +116,5 @@ export function parsing(roleModel: dataObject, checkTarget: dataObject, option: 
     },
   };
 
-  if (!isDataObject(roleModel) || !isDataObject(checkTarget)) {
-    throw new Error('not data object.');
-  }
   child({ path: '', key: '', roleModel, checkTarget, option: { ...defaultOption, ...option }, handle });
 }
