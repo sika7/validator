@@ -13,6 +13,7 @@ type optionParsingArgument = {
 
 type parsingErrorArgument = {
   path: string;
+  errorMessage: string;
 };
 
 type Argument = {
@@ -81,6 +82,7 @@ function typeObject(argument: Argument) {
   if (Array.isArray(roleModel)) return;
 
   for (const key of Object.keys(roleModel)) {
+    if (handle.isStop()) return;
     const newPath = makePath(path, key);
     try {
       const roleModelChild = roleModel[key] as dataObject;
@@ -92,9 +94,11 @@ function typeObject(argument: Argument) {
         roleModel: roleModelChild,
         checkTarget: checkTargetChild,
       });
-    } catch (e) {
+    } catch (e: unknown) {
       handle.stop();
-      option.errorCallback({ path: newPath });
+      if (e instanceof Error) {
+        option.errorCallback({ path: newPath , errorMessage: e.message});
+      }
       return;
     }
   }
