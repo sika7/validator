@@ -1,10 +1,9 @@
 import { DictionaryValidator } from './dictionaryValidator';
-import { parsing, dataObject } from './parsing/main';
+import { parsing, dataObject, ParsingError } from './parsing/main';
 import { IValidatePlugin } from './types';
 
 function getValidationNames(value: string): string[] {
-  if (typeof value !== 'string') throw new Error('argument is not a string.');
-  return value.split('.');
+  return value.split('|');
 }
 
 function stringTypeSetting(names: unknown, callback: (name: string) => unknown) {
@@ -31,30 +30,43 @@ export class ObjectValidator {
   validation(setting: dataObject, target: dataObject): void | ObjectValidatorError {
     let result: null | ObjectValidatorError = null;
 
-    parsing(setting, target, {
-      stringCallbakc: ({ path, roleModel, checkTarget }, handle) => {
-        stringTypeSetting(roleModel.value, (name) => {
-          const validationResult = this.validator.validation(name, checkTarget.value);
-          if (validationResult) {
-            handle.stop();
-            result = {
-              path,
-              validateName: validationResult.validateName,
-              errorMessage: validationResult.errorMessage,
-            };
-          }
-          return validationResult;
-        });
-      },
-      errorCallback: ({ path }) => {
+    try {
+      parsing(setting, target, {
+        stringCallbakc: ({ path, roleModel, checkTarget }, handle) => {
+          stringTypeSetting(roleModel.value, (name) => {
+            try {
+              const validationResult = this.validator.validation(name, checkTarget.value);
+              if (validationResult) {
+                handle.stop();
+                result = {
+                  path,
+                  validateName: validationResult.validateName,
+                  errorMessage: validationResult.errorMessage,
+                };
+              }
+              return validationResult;
+            } catch (e: unknown) {
+              if (e instanceof Error) {
+                handle.stop();
+                result = {
+                  path,
+                  validateName: name,
+                  errorMessage: e.message,
+                };
+              }
+            }
+          });
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof ParsingError) {
         result = {
-          path,
+          path: error.path,
           validateName: '',
-          errorMessage: 'お手本データ通りに検証データにデータがありません',
+          errorMessage: error.message,
         };
-        return;
-      },
-    });
+      }
+    }
 
     if (result) return result;
   }
