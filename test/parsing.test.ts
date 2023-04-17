@@ -1,4 +1,4 @@
-import { parsing } from './../lib/parsing/main';
+import { parsing, ParsingError } from './../lib/parsing/main';
 
 describe('parsing function', () => {
   it('コールバックがなくてもエラーにならない', () => {
@@ -7,13 +7,15 @@ describe('parsing function', () => {
     parsing(setting, data, {});
   });
   it('探索出来る', () => {
-    const setting = { id: 'number', name: 'string', age: 'number' };
-    const data = { id: 1, name: 'tarou', age: 20 };
+    const setting = { id: 'number', name: 'string', flug: 'bool' };
+    const data = { id: 1, name: 'tarou', flug: false };
+    const result: (string | number | boolean)[] = [];
     parsing(setting, data, {
       stringCallbakc: (item) => {
-        expect(item.checkTarget.value).toEqual(expect.any(String || Number) as string | number);
+        result.push(item.checkTarget.value as string | number);
       },
     });
+    expect(result).toEqual(expect.arrayContaining([expect.any(String || Number || Boolean) as string | number | boolean]));
   });
   it('探索を途中で止めることが出来る', () => {
     const setting = { id: 'number', name: 'string', age: 'number' };
@@ -21,7 +23,7 @@ describe('parsing function', () => {
     parsing(setting, data, {
       stringCallbakc: (item, handle) => {
         expect(item.checkTarget.value).toEqual(expect.any(String) as string);
-        if (item.path === 'name') handle.stop();
+        if (item.key === 'name') handle.stop();
       },
     });
   });
@@ -38,15 +40,23 @@ describe('parsing function', () => {
   it('データ無しの場合はエラー', () => {
     const setting = { id: 'number', name: { last: 'string', first: 'string' }, age: 'number' };
     const data = { id: 'hogehoge', name: 'hoge', age: 20 };
-    parsing(setting, data, {
-      stringCallbakc: (item, handle) => {
-        expect(item.checkTarget.value).toEqual(expect.any(String) as string);
-        if (item.path === 'name') handle.stop();
-      },
-      errorCallback: (data) => {
-        expect(data.path).toEqual(expect.any(String) as string);
-        expect(data.errorMessage).toEqual(expect.any(String) as string);
-      },
-    });
+    expect(() => {
+      parsing(setting, data, {
+        stringCallbakc: (item, handle) => {
+          if (item.path === 'name') handle.stop();
+        },
+      });
+    }).toThrowError(ParsingError);
+  });
+  it('コールバックのエラーはParsingErrorでラップ', () => {
+    const setting = { id: 'number', name: { last: 'string', first: 'string' }, age: 'number' };
+    const data = { id: 'hogehoge', name: 'hoge', age: 20 };
+    expect(() => {
+      parsing(setting, data, {
+        stringCallbakc: () => {
+          throw new Error('test');
+        },
+      });
+    }).toThrowError(ParsingError);
   });
 });

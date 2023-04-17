@@ -77,6 +77,7 @@ function child(argument: Argument) {
         handle
       );
     } catch (error: unknown) {
+      handle.stop();
       if (error instanceof Error) {
         throw new ParsingError(error.message, path);
       }
