@@ -1,13 +1,18 @@
 import { ObjectValidator } from './objectValidator';
 import { isNumber } from './plugins/isNumber';
 
-const data = {
-  hoge: 'number',
+// const data = {
+//   hoge: 'number',
+// };
+// const data2 = { hoge: 2 };
+
+const validator = new ObjectValidator();
+validator.use(isNumber());
+
+const setting = {
+  id: 'string|number',
 };
-const data2 = { hoge: 2 };
+console.log(validator.validation(setting, { id: 3 }));
 
-const v = new ObjectValidator();
-v.use(isNumber());
-
-console.log('結果', v.validation(data, data2));
-
+// console.log('結果', v.validation(data, data2));
+//
