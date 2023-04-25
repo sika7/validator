@@ -11,24 +11,25 @@
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
+  "main": "./dist/export.mjs",
   "exports": {
     ".": {
-      "import": "./dist/esm.mjs",
-      "require": "./dist/cjs.js",
-      "node": "./dist/esm.mjs",
-      "default": "./dist/cjs.js"
+      "import": "./dist/export.mjs",
+      "require": "./dist/export.cjs",
+      "node": "./dist/export.mjs",
+      "default": "./dist/export.mjs"
     },
     "./lib": {
-      "import": "./dist/esm.mjs",
-      "require": "./dist/cjs.js",
-      "node": "./dist/esm.mjs",
-      "default": "./dist/cjs.js"
+      "import": "./dist/export.mjs",
+      "require": "./dist/export.cjs",
+      "node": "./dist/export.mjs",
+      "default": "./dist/export.mjs"
     },
     "./plugins": {
-      "import": "./dist/esm.mjs",
-      "require": "./dist/cjs.js",
-      "node": "./dist/esm.mjs",
-      "default": "./dist/cjs.js"
+      "import": "./dist/pligins/*.mjs",
+      "require": "./dist/pligins/*.cjs",
+      "node": "./dist/pligins/*.mjs",
+      "default": "./dist/pligins/*.mjs"
     }
   },
   "scripts": {

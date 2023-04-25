@@ -31,12 +31,12 @@ export default [
     input: pluginFiles,
     output: [
       {
-        dir: 'dist/plugin/',
+        dir: 'dist/plugins/',
         entryFileNames: '[name].cjs',
         format: 'cjs',
       },
       {
-        dir: 'dist/plugin/',
+        dir: 'dist/plugins/',
         entryFileNames: '[name].mjs',
         format: 'es',
       },
