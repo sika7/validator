@@ -4,7 +4,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "version": "0.0.0",
+  "version": "0.0.2",
   "description": "A validator that can be used in the front and backend",
   "author": "sika7 <91676209+sika7@users.noreply.github.com> (https://github.com/sika7)",
   "type": "module",
