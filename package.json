@@ -12,6 +12,7 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "main": "./dist/export.mjs",
+  "typings": "./lib/types.d.ts",
   "exports": {
     ".": {
       "import": "./dist/export.mjs",
