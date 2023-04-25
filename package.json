@@ -2,7 +2,6 @@
   "name": "@sika7/validator",
   "publishConfig": {
     "access": "public",
-    "registry": "https://registry.npmjs.org/"
   },
   "version": "0.0.3",
   "description": "A validator that can be used in the front and backend",
