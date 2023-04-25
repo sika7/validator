@@ -1,6 +1,6 @@
 {
   "name": "@sika7/validator",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "description": "A validator that can be used in the front and backend",
   "author": "sika7 <91676209+sika7@users.noreply.github.com> (https://github.com/sika7)",
