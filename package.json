@@ -11,6 +11,26 @@
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
+  "exports": {
+    ".": {
+      "import": "./dist/esm.mjs",
+      "require": "./dist/cjs.js",
+      "node": "./dist/esm.mjs",
+      "default": "./dist/cjs.js"
+    },
+    "./lib": {
+      "import": "./dist/esm.mjs",
+      "require": "./dist/cjs.js",
+      "node": "./dist/esm.mjs",
+      "default": "./dist/cjs.js"
+    },
+    "./plugins": {
+      "import": "./dist/esm.mjs",
+      "require": "./dist/cjs.js",
+      "node": "./dist/esm.mjs",
+      "default": "./dist/cjs.js"
+    }
+  },
   "scripts": {
     "lint": "eslint --fix ./*/*.ts",
     "fmt": "prettier --write ./*/*.ts",
