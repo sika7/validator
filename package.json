@@ -7,6 +7,7 @@
   "version": "0.0.2",
   "description": "A validator that can be used in the front and backend",
   "author": "sika7 <91676209+sika7@users.noreply.github.com> (https://github.com/sika7)",
+  "license": "MIT",
   "type": "module",
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
