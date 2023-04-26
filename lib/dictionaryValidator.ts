@@ -1,4 +1,4 @@
-import { IValidatePlugin } from './types';
+import { ValidatePlugin } from './types';
 import { Validate } from './validate';
 
 type TValidators = Record<string, Validate>;
@@ -11,7 +11,7 @@ type DictionaryValidatorError = {
 export class DictionaryValidator {
   validators: TValidators = {};
 
-  use(plugin: IValidatePlugin) {
+  use(plugin: ValidatePlugin) {
     const name = plugin.name;
     if (this.validators[name]) throw new Error('Already registered.');
     this.validators[name] = new Validate(plugin);

@@ -1,6 +1,6 @@
 import { DictionaryValidator } from './dictionaryValidator';
 import { parsing, dataObject, ParsingError } from './parsing/main';
-import { IValidatePlugin } from './types';
+import { ValidatePlugin } from './types';
 
 function getValidationNames(value: string): string[] {
   return value.split('|');
@@ -23,7 +23,7 @@ type ObjectValidatorError = {
 export class ObjectValidator {
   validator: DictionaryValidator = new DictionaryValidator();
 
-  use(plugin: IValidatePlugin) {
+  use(plugin: ValidatePlugin) {
     this.validator.use(plugin);
   }
 

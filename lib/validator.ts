@@ -1,12 +1,12 @@
-import { ErrorValidate, IValidatePlugin, ValidateResult } from './types';
+import { ErrorValidate, ValidatePlugin, ValidateResult } from './types';
 import { convertPluginToValidates } from './validate';
 
 export class Validator {
-  plugins: IValidatePlugin[] = [];
+  plugins: ValidatePlugin[] = [];
   result: ValidateResult[] = [];
   target: unknown;
 
-  constructor(plugins: IValidatePlugin[]) {
+  constructor(plugins: ValidatePlugin[]) {
     this.plugins = plugins;
   }
 
@@ -43,6 +43,6 @@ export class Validator {
   }
 }
 
-export function validator(validatePlugins: IValidatePlugin[]): Validator {
+export function validator(validatePlugins: ValidatePlugin[]): Validator {
   return new Validator(validatePlugins);
 }
