@@ -12,7 +12,7 @@
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
   "main": "./dist/index.mjs",
-  "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
