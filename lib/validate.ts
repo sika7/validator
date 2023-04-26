@@ -1,11 +1,11 @@
-import { IValidatePlugin, ValidateResult } from './types';
+import { ValidatePlugin, ValidateResult } from './types';
 
 /**
  * Validate. (Basic unit of validation)
  */
 export class Validate {
-  config: IValidatePlugin;
-  constructor(config: IValidatePlugin) {
+  config: ValidatePlugin;
+  constructor(config: ValidatePlugin) {
     this.config = config;
   }
 
@@ -28,7 +28,7 @@ export class Validate {
   }
 }
 
-export function convertPluginToValidates(validatePlugins: IValidatePlugin[]) {
+export function convertPluginToValidates(validatePlugins: ValidatePlugin[]) {
   const validates: Validate[] = [];
   for (const plugin of validatePlugins) {
     validates.push(new Validate(plugin));

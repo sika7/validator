@@ -1,4 +1,4 @@
-export interface IValidatePlugin {
+export interface ValidatePlugin {
   name: string;
   errorMessage: string;
   validation: (target: unknown) => boolean;
