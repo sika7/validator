@@ -11,20 +11,20 @@
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   },
-  "main": "./dist/export.mjs",
-  "typings": "./lib/types.d.ts",
+  "main": "./dist/index.mjs",
+  "typings": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/export.mjs",
-      "require": "./dist/export.cjs",
-      "node": "./dist/export.mjs",
-      "default": "./dist/export.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "node": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
     },
     "./lib": {
-      "import": "./dist/export.mjs",
-      "require": "./dist/export.cjs",
-      "node": "./dist/export.mjs",
-      "default": "./dist/export.mjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "node": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
     },
     "./plugins": {
       "import": "./dist/pligins/*.mjs",
@@ -50,6 +50,7 @@
     "jest": "^29.5.0",
     "prettier": "2.8.7",
     "rollup": "^3.20.2",
+    "rollup-plugin-dts-bundle-generator": "^1.4.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.3"

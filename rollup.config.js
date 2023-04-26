@@ -2,6 +2,7 @@ import glob from 'glob';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import typescript from '@rollup/plugin-typescript';
+import { generateDtsBundle } from 'rollup-plugin-dts-bundle-generator';
 
 const pluginFiles = Object.fromEntries(
   glob
@@ -17,15 +18,15 @@ export default [
     input: 'lib/export.ts',
     output: [
       {
-        file: 'dist/export.cjs',
+        file: 'dist/index.cjs',
         format: 'cjs',
       },
       {
-        file: 'dist/export.mjs',
+        file: 'dist/index.mjs',
         format: 'es',
       },
     ],
-    plugins: [typescript()],
+    plugins: [typescript(), generateDtsBundle()],
   },
   {
     input: pluginFiles,
