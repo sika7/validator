@@ -15,7 +15,7 @@ const pluginFiles = Object.fromEntries(
 
 export default [
   {
-    input: 'lib/export.ts',
+    input: 'lib/index.ts',
     output: [
       {
         file: 'dist/index.cjs',
