@@ -20,7 +20,7 @@
       "node": "./dist/index.mjs",
       "default": "./dist/index.mjs"
     },
-    "./plugins": {
+    "./plugins/*": {
       "import": "./dist/pligins/*.mjs",
       "require": "./dist/pligins/*.cjs",
       "node": "./dist/pligins/*.mjs",
