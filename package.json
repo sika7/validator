@@ -31,7 +31,8 @@
     "lint": "eslint --fix ./*/*.ts",
     "fmt": "prettier --write ./*/*.ts",
     "test": "jest --coverage",
-    "build": "rollup --config rollup.config.js",
+    "clean": "rm -rf ./dist",
+    "build": "npm run clean && rollup --config rollup.config.js",
     "node": "ts-node lib/run.ts"
   },
   "devDependencies": {
