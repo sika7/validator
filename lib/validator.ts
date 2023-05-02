@@ -1,5 +1,5 @@
-import { ErrorValidate, ValidatePlugin, ValidateResult } from './types';
-import { convertPluginToValidates } from './validate';
+import { ErrorValidate, ValidatePlugin, ValidateResult } from 'types';
+import { convertPluginToValidates } from 'validate';
 
 export class Validator {
   plugins: ValidatePlugin[] = [];

@@ -1,5 +1,5 @@
-import { ObjectValidator } from './objectValidator';
-import { isNumber } from './plugins/isNumber';
+import { ObjectValidator } from 'objectValidator';
+import { isNumber } from 'plugins/isNumber';
 
 // const data = {
 //   hoge: 'number',

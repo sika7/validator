@@ -1,6 +1,6 @@
-import { DictionaryValidator } from './dictionaryValidator';
-import { parsing, dataObject, ParsingError } from './parsing/main';
-import { ValidatePlugin } from './types';
+import { DictionaryValidator } from 'dictionaryValidator';
+import { parsing, dataObject, ParsingError } from 'parsing/main';
+import { ValidatePlugin } from 'types';
 
 function getValidationNames(value: string): string[] {
   return value.split('|');

@@ -1,4 +1,4 @@
-import { childNode, dataObject, PrimitiveTypeData, RootNode } from './types';
+import { childNode, dataObject, PrimitiveTypeData, RootNode } from 'ast/types';
 
 function childrens(data: dataObject): childNode[] {
   const result: childNode[] = [];

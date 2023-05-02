@@ -1,4 +1,4 @@
-import { child, dataObject, Handle, isDataObject, Option } from './exploration';
+import { child, dataObject, Handle, isDataObject, Option } from 'exploration/exploration';
 
 type explorationOption = Partial<Option>;
 

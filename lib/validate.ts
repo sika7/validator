@@ -1,4 +1,4 @@
-import { ValidatePlugin, ValidateResult } from './types';
+import { ValidatePlugin, ValidateResult } from 'types';
 
 /**
  * Validate. (Basic unit of validation)

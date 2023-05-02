@@ -1,5 +1,5 @@
-import { ValidatePlugin } from './types';
-import { Validate } from './validate';
+import { ValidatePlugin } from 'types';
+import { Validate } from 'validate';
 
 type TValidators = Record<string, Validate>;
 

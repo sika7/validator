@@ -1,5 +1,5 @@
-import { ValidatePlugin } from './types';
-import { convertPluginToValidates } from './validate';
+import { ValidatePlugin } from 'types';
+import { convertPluginToValidates } from 'validate';
 
 /**
  * validation.
