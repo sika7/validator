@@ -1,4 +1,4 @@
-import { ValidatePlugin } from '../types';
+import { ValidatePlugin } from 'types';
 
 export function isNumber(): ValidatePlugin {
   return {
